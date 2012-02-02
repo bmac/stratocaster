@@ -16,7 +16,7 @@ def import_podcast(request):
             itunes_namespace = podcast.namespaces['itunes'],
             publisher = podcast.feed.publisher,
             subtitle = podcast.feed.subtitle,
-            link = podcastXml,
+            podcast_xml = podcastXml,
             title = podcast.feed.title,
             rights = podcast.feed.rights,
             author = podcast.feed.author, 

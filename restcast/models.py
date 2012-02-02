@@ -12,6 +12,7 @@ class Podcast(models.Model):
     publisher = models.CharField(max_length=256,blank=True)
     subtitle = models.CharField(max_length=256,blank=True)
     link = models.URLField(blank=True)
+#    podcast_xml = models.URLField(blank=True)
     title = models.CharField(max_length=256,blank=True)
     # image = models.ImageField(upload_to='podcastIcons')
     rights = models.CharField(max_length=256,blank=True)
