@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-# Create your models here.
+import feedparser
+from time import mktime
+from datetime import datetime
 
 
 class Podcast(models.Model):
@@ -18,6 +20,25 @@ class Podcast(models.Model):
     email = models.EmailField(blank=True)
     summary = models.TextField(blank=True)
     
+    def __unicode__(self):
+        return self.title
+    
+    def load_episodes(self):
+        feed = feedparser.parse(self.link)
+        for entry in feed.entries:
+            count = Episode.objects.filter(link=entry.links[0]['href']).count()
+            print 'count: ', count
+            if (count == 0):
+                episode = Episode(
+                    podcast=self,
+                    subtitle=entry.subtitle,
+                    title=entry.title,
+                    author=entry.author,
+                    updated=datetime.fromtimestamp(mktime(entry.updated_parsed)),
+                    summary=entry.summary,
+                    link=entry.links[0]['href']
+                    )
+                episode.save()
 
 class Episode(models.Model):
     podcast = models.ForeignKey(Podcast)
@@ -31,6 +52,8 @@ class Episode(models.Model):
     link = models.URLField()
     episode_id = models.CharField(max_length=256)
 
+    def __unicode__(self):
+        return '%s: %s' % (self.podcast.title, self.title)
 
 class WatchedRecord(models.Model):
     user = models.ForeignKey(User)

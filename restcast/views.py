@@ -16,7 +16,7 @@ def import_podcast(request):
             itunes_namespace = podcast.namespaces['itunes'],
             publisher = podcast.feed.publisher,
             subtitle = podcast.feed.subtitle,
-            link = podcast.feed.link,
+            link = podcastXml,
             title = podcast.feed.title,
             rights = podcast.feed.rights,
             author = podcast.feed.author, 
@@ -25,6 +25,7 @@ def import_podcast(request):
             )
 
         podcast_model.save()
+        podcast_model.load_episodes()
     
     return HttpResponse()
 
