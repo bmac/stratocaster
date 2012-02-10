@@ -1,6 +1,7 @@
 # Create your views here.
 from djangorestframework.compat import View
-from djangorestframework.mixins import ResponseMixin
+from djangorestframework.views import ModelView
+from djangorestframework.mixins import ResponseMixin, ReadModelMixin
 from djangorestframework.renderers import DEFAULT_RENDERERS
 from djangorestframework.response import Response
 
@@ -50,3 +51,26 @@ class EpisodeInstanceView(ResponseMixin, View):
 
         response = Response(200, episode_dict)
         return self.render(response)
+
+
+class EpisodeListView(ResponseMixin, View):
+    """View for all episodes in a podcast"""
+    renderers = DEFAULT_RENDERERS
+
+    def get(self, request, podcast_id):
+        
+        episodes = Episode.objects.filter(podcast__id=podcast_id)
+
+        ret = []
+        for episode in episodes:
+            ret.append(episode.to_dict(request.user))
+
+        response = Response(200, ret)
+        return self.render(response)
+
+
+class ReadModelView(ReadModelMixin, ModelView):
+    """
+    A view which provides default operations for read/update/delete against a model instance.
+    """
+    _suffix = 'Read'
