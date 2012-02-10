@@ -101,6 +101,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'stratocaster.urls'
@@ -127,7 +128,7 @@ INSTALLED_APPS = (
 
     # 3rd party libraries
     'djangorestframework',
-    
+    'debug_toolbar',
 
     # custom apps
     'restcast',
@@ -156,3 +157,6 @@ LOGGING = {
         },
     }
 }
+
+
+INTERNAL_IPS = ('127.0.0.1',)

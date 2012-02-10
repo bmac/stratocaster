@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.contrib.auth.models import User
 import feedparser
@@ -55,6 +56,23 @@ class Episode(models.Model):
 
     def __unicode__(self):
         return '%s: %s' % (self.podcast.title, self.title)
+
+    def to_dict(self, user=None):
+        
+        watched_record = WatchedRecord.objects.filter(user=user, pk=self.id)
+        watched = watched_record[0].watched if len(watched_record) else False
+        return {'podcast': 
+                        reverse('podcast', kwargs={'podcast_id': self.podcast.id}),
+                                                     
+                        'subtitle': self.subtitle,
+                        'title': self.title,
+                        'author': self.author,
+                        'updated': self.updated,
+                        'summary': self.summary,
+                        'content': self.content,
+                        'link': self.link,
+                        'id': self.id,
+                        'watched': watched }
 
 class WatchedRecord(models.Model):
     user = models.ForeignKey(User)

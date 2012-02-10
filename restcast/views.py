@@ -1,7 +1,14 @@
 # Create your views here.
+from djangorestframework.compat import View
+from djangorestframework.mixins import ResponseMixin
+from djangorestframework.renderers import DEFAULT_RENDERERS
+from djangorestframework.response import Response
+
 import feedparser
 from django.http import HttpResponse
-from restcast.models import Podcast
+from django.shortcuts import get_object_or_404
+
+from restcast.models import Podcast, Episode
 from time import mktime
 from datetime import datetime
 
@@ -29,3 +36,17 @@ def import_podcast(request):
     
     return HttpResponse()
 
+
+
+class EpisodeInstanceView(ResponseMixin, View):
+    """View for a single instance of an episode"""
+    renderers = DEFAULT_RENDERERS
+
+    def get(self, request, podcast_id, episode_id):
+        
+        episode = get_object_or_404(Episode, podcast__id=podcast_id, pk = episode_id)
+
+        episode_dict = episode.to_dict(request.user)
+
+        response = Response(200, episode_dict)
+        return self.render(response)

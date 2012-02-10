@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import patterns, include, url
-from restcast.views import import_podcast
+from restcast.views import import_podcast, EpisodeInstanceView
 from djangorestframework.views import ListModelView, ModelView
 from restcast.resources import PodcastResource, EpisodeResource
 
@@ -18,13 +18,14 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', import_podcast),
-    url(r'^resources/podcast/', ListModelView.as_view(resource=PodcastResource), 
+    url(r'^resources/podcast/$', ListModelView.as_view(resource=PodcastResource), 
         name='podcast-root'),
-    url(r'^resources/podcast/(?P<podcast_id>[^/]+)/', 
+    url(r'^resources/podcast/(?P<podcast_id>[^/]+)/episode/(?P<episode_id>[^/]+)/$', 
+        EpisodeInstanceView.as_view(), name='episode'),
+    url(r'^resources/podcast/(?P<podcast_id>[^/]+)/$', 
         ModelView.as_view(resource=PodcastResource), name='podcast'),
-    url(r'^resources/podcast/(?P<podcast_id>[^/]+)/episode/', 
+    url(r'^resources/podcast/(?P<podcast_id>[^/]+)/episode/$', 
        ListModelView.as_view(resource=EpisodeResource), name='episode-root'),
-    url(r'^resources/podcast/(?P<podcast_id>[^/]+)/episode/(?P<episode_id>[^/]+)/', 
-        ModelView.as_view(resource=EpisodeResource), name='episode'),
+
 
 )

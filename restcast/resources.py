@@ -32,3 +32,4 @@ class EpisodeResource(ModelResource):
 
     def podcast(self, instance):
         return reverse('podcast', kwargs={'podcast_id': instance.podcast.id})
+
