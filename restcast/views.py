@@ -37,38 +37,6 @@ def import_podcast(request):
     
     return HttpResponse()
 
-
-
-class EpisodeInstanceView(ResponseMixin, View):
-    """View for a single instance of an episode"""
-    renderers = DEFAULT_RENDERERS
-
-    def get(self, request, podcast_id, episode_id):
-        
-        episode = get_object_or_404(Episode, podcast__id=podcast_id, pk = episode_id)
-
-        episode_dict = episode.to_dict(request.user)
-
-        response = Response(200, episode_dict)
-        return self.render(response)
-
-
-class EpisodeListView(ResponseMixin, View):
-    """View for all episodes in a podcast"""
-    renderers = DEFAULT_RENDERERS
-
-    def get(self, request, podcast_id):
-        
-        episodes = Episode.objects.filter(podcast__id=podcast_id)
-
-        ret = []
-        for episode in episodes:
-            ret.append(episode.to_dict(request.user))
-
-        response = Response(200, ret)
-        return self.render(response)
-
-
 class ReadModelView(ReadModelMixin, ModelView):
     """
     A view which provides default operations for read/update/delete against a model instance.

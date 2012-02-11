@@ -31,5 +31,5 @@ class EpisodeResource(ModelResource):
     ordering = ('-updated',)
 
     def podcast(self, instance):
-        return reverse('podcast', kwargs={'podcast_id': instance.podcast.id})
+        return reverse('podcast', kwargs={'id': instance.podcast.id})
 
