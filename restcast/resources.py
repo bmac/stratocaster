@@ -1,7 +1,7 @@
 from django.core.urlresolvers import reverse
 from djangorestframework.resources import ModelResource
-from restcast.models import Podcast, Episode
-
+from restcast.models import Podcast, Episode, WatchedRecord
+from restcast.forms import WatchedRecordForm
 
 class PodcastResource(ModelResource):
     """
@@ -32,4 +32,22 @@ class EpisodeResource(ModelResource):
 
     def podcast(self, instance):
         return reverse('podcast', kwargs={'id': instance.podcast.id})
+
+
+class WatchedRecordResource(ModelResource):
+    """
+    An episode associated with a podcast.
+    """
+    form = WatchedRecordForm
+    model = WatchedRecord
+    fields = ('watched', 'episode_link', 'episode_id')
+    
+    ordering = ('-episode',)
+    
+    def episode_id(self, instance):
+        return instance.episode.id
+
+    def episode_link(self, instance):
+        return reverse('episode', kwargs= {'id': instance.episode.id,
+                                           'podcast': instance.episode.podcast.id})
 

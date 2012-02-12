@@ -6,12 +6,14 @@ from djangorestframework.renderers import DEFAULT_RENDERERS
 from djangorestframework.response import Response
 
 import feedparser
+from time import mktime
+from datetime import datetime
+
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 
 from restcast.models import Podcast, Episode
-from time import mktime
-from datetime import datetime
+from restcast.resources import WatchedRecordResource
 
 def import_podcast(request):
     podcastXml = request.GET.get('podcastXml')
@@ -42,3 +44,14 @@ class ReadModelView(ReadModelMixin, ModelView):
     A view which provides default operations for read/update/delete against a model instance.
     """
     _suffix = 'Read'
+
+
+class WatchedRecordInstanceView(ReadModelMixin, ModelView):
+    
+    def put(self, request, pk):
+        model = self.resource.model
+        # TODO: update on the url of a non-existing resource url doesn't work correctly at the moment - will end up with a new url
+        self.model_instance = get_object_or_404(model, pk=pk, user=request.user.id)
+        self.model_instance.watched = self.CONTENT['watched']
+        self.model_instance.save()
+        return self.model_instance

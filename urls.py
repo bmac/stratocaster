@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
-from restcast.views import import_podcast, EpisodeInstanceView, EpisodeListView, ReadModelView
+from restcast.views import import_podcast, ReadModelView, WatchedRecordInstanceView
 from djangorestframework.views import ListModelView, ModelView, InstanceModelView
-from restcast.resources import PodcastResource, EpisodeResource
+from restcast.resources import PodcastResource, EpisodeResource, WatchedRecordResource
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -27,4 +27,6 @@ urlpatterns = patterns('',
         ReadModelView.as_view(resource=PodcastResource), name='podcast'),
     url(r'^resources/podcast/$', ListModelView.as_view(resource=PodcastResource), 
         name='podcast-root'),
+    url(r'^resources/watched/(?P<pk>[^/]+)/$', WatchedRecordInstanceView.as_view(resource = WatchedRecordResource)),
+    url(r'^resources/watched/$', ListModelView.as_view(resource=WatchedRecordResource)),
 )
