@@ -42,6 +42,9 @@ class Podcast(models.Model):
                     )
                 episode.save()
 
+    def get_absolute_url(self):
+        return reverse('podcast', kwargs={'id': self.id})
+
 class Episode(models.Model):
     podcast = models.ForeignKey(Podcast)
     subtitle = models.CharField(max_length=256)
@@ -57,9 +60,19 @@ class Episode(models.Model):
     def __unicode__(self):
         return '%s: %s' % (self.podcast.title, self.title)
 
+    def get_absolute_url(self):
+        return reverse('episode', kwargs={'id': self.id, 
+                                          'podcast': self.podcast.id})
+
 class WatchedRecord(models.Model):
     user = models.ForeignKey(User)
     episode = models.ForeignKey(Episode)
     watched = models.BooleanField()
 
+    def __unicode__(self):
+        return '%s has %s %s' % (self.user, 'watched' if self.watched else 'not watched', self.episode)
+
+    def get_absolute_url(self):
+        return reverse('watched-record', kwargs={'pk': self.id})
+    
 

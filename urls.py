@@ -27,6 +27,7 @@ urlpatterns = patterns('',
         ReadModelView.as_view(resource=PodcastResource), name='podcast'),
     url(r'^resources/podcast/$', PodcastListView.as_view(), 
         name='podcast-root'),
-    url(r'^resources/watched/(?P<pk>[^/]+)/$', WatchedRecordInstanceView.as_view()),
+    url(r'^resources/watched/(?P<pk>[^/]+)/$', WatchedRecordInstanceView.as_view(),
+        name='watched-record'),
     url(r'^resources/watched/$', WatchedRecordListView.as_view()),
 )
