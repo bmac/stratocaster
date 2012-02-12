@@ -29,7 +29,6 @@ class Podcast(models.Model):
         feed = feedparser.parse(self.link)
         for entry in feed.entries:
             count = Episode.objects.filter(link=entry.links[0]['href']).count()
-            print 'count: ', count
             if (count == 0):
                 episode = Episode(
                     podcast=self,

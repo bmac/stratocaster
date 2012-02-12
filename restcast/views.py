@@ -19,30 +19,6 @@ from restcast.models import Podcast, Episode, WatchedRecord
 from restcast.resources import WatchedRecordResource, PodcastResource
 from restcast.forms import WatchedRecordCreateForm, PodcastCreateForm
 
-def import_podcast(request):
-    podcastXml = request.GET.get('podcastXml')
-    if podcastXml:
-        podcast = feedparser.parse(podcastXml)
-
-        podcast_model = Podcast(
-            last_updated = datetime.fromtimestamp(mktime(podcast.updated_parsed)),
-            version = podcast.version,
-            itunes_namespace = podcast.namespaces['itunes'],
-            publisher = podcast.feed.publisher,
-            subtitle = podcast.feed.subtitle,
-            podcast_xml = podcastXml,
-            title = podcast.feed.title,
-            rights = podcast.feed.rights,
-            author = podcast.feed.author, 
-            email = podcast.feed.authors[0]['email'],
-            summary = podcast.feed.summary
-            )
-
-        podcast_model.save()
-        podcast_model.load_episodes()
-    
-    return HttpResponse()
-
 class PodcastListView(ListModelMixin, ModelView):
     authentication = [UserLoggedInAuthentication]
     resource = PodcastResource
@@ -57,7 +33,7 @@ class PodcastListView(ListModelMixin, ModelView):
             itunes_namespace = podcast.namespaces['itunes'],
             publisher = podcast.feed.publisher,
             subtitle = podcast.feed.subtitle,
-            podcast_xml = podcastXml,
+            link = link,
             title = podcast.feed.title,
             rights = podcast.feed.rights,
             author = podcast.feed.author, 
@@ -69,7 +45,7 @@ class PodcastListView(ListModelMixin, ModelView):
         podcast_model.load_episodes()
         headers = {}
         if hasattr(podcast_model, 'get_absolute_url'):
-            headers['Location'] = self.resource(self).url(podcast_model)
+            headers['Location'] = podcast_model.get_absolute_url()
         return Response(status.HTTP_201_CREATED, podcast_model, headers)
         
     
