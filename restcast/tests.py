@@ -18,8 +18,8 @@ class SimpleTest(TestCase):
 
         
 
-class PodcastListViewTest(TestCase):
-    def test_get_request(self):
+class PodcastResourceTest(TestCase):
+    def test_get_list_request(self):
         resp = self.client.get('/resources/podcast/')
         self.assertEqual(resp.status_code, 200)
 
@@ -30,3 +30,7 @@ class PodcastListViewTest(TestCase):
     def test_no_data_post(self):
         resp = self.client.post('/resources/podcast/', {})
         self.assertEqual(resp.status_code, 400)
+
+    def test_get_non_existant_podcast(self):
+        resp = self.client.get('/resources/podcast/1')
+        self.assertEqual(resp.status_code, 404)
