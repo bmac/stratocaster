@@ -41,3 +41,18 @@ class PodcastResourceTest(TestCase):
         resp = self.client.get(new_podcast_url)
         self.assertEqual(resp.status_code, 200)
 
+class EpisodeResourceTest(TestCase):
+    def setUp(self):
+        resp = self.client.post('/resources/podcast/', {'link': 'http://shows.kingdomofloathing.com/ahd/videogameshotdog.xml'})
+
+    def test_get_episode_list(self):
+        resp = self.client.get('/resources/podcast/1/episode/')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_get_single_episode(self):
+        resp = self.client.get('/resources/podcast/1/episode/1/')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_get_non_existant_episode(self):
+        resp = self.client.get('/resources/podcast/1/episode/500000/')
+        self.assertEqual(resp.status_code, 404)
