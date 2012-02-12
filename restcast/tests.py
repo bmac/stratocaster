@@ -32,5 +32,12 @@ class PodcastResourceTest(TestCase):
         self.assertEqual(resp.status_code, 400)
 
     def test_get_non_existant_podcast(self):
-        resp = self.client.get('/resources/podcast/1')
+        resp = self.client.get('/resources/podcast/1/')
         self.assertEqual(resp.status_code, 404)
+
+    def test_get_existing_poscast(self):
+        resp = self.client.post('/resources/podcast/', {'link': 'http://shows.kingdomofloathing.com/ahd/videogameshotdog.xml'})
+        new_podcast_url = resp['Location']
+        resp = self.client.get(new_podcast_url)
+        self.assertEqual(resp.status_code, 200)
+
