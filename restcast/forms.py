@@ -7,3 +7,6 @@ class WatchedRecordForm(forms.Form):
 class WatchedRecordCreateForm(forms.Form):
     watched = forms.BooleanField(required=True)
     episode_id = forms.IntegerField(required=True)
+
+class PodcastCreateForm(forms.Form):
+    link = forms.CharField(required=True)

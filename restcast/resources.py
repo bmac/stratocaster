@@ -17,8 +17,8 @@ class PodcastResource(ModelResource):
         ret = []
         for episode in instance.episode_set.all():
             ret.append(reverse('episode', 
-                               kwargs={'episode_id': episode.id, 
-                                       'podcast_id': instance.id}))
+                               kwargs={'id': episode.id, 
+                                       'podcast': instance.id}))
         return ret
 
 class EpisodeResource(ModelResource):
