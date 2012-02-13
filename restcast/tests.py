@@ -6,7 +6,7 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
-
+from restcast.models import WatchedRecord
 
 class SimpleTest(TestCase):
     def test_basic_addition(self):
@@ -56,3 +56,35 @@ class EpisodeResourceTest(TestCase):
     def test_get_non_existant_episode(self):
         resp = self.client.get('/resources/podcast/1/episode/500000/')
         self.assertEqual(resp.status_code, 404)
+
+class WatchedRecordResourceTest(TestCase):
+    fixtures = ['auth.json']
+
+    def setUp(self):
+        self.client.login(username='mreynolds', password='youcanttaketheskyfromme')
+        resp = self.client.post('/resources/podcast/', {'link': 'http://shows.kingdomofloathing.com/ahd/videogameshotdog.xml'})
+
+    def test_create_watched_record(self):
+        resp = self.client.post('/resources/watched/', {'watched': True, 
+                                                        'episode_id': 1})
+        self.assertEqual(resp.status_code, 201)
+        resp = self.client.get('/resources/watched/1/')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_update_watched_record(self):
+        resp = self.client.post('/resources/watched/', {'watched': True, 
+                                                        'episode_id': 1})
+        self.assertEqual(resp.status_code, 201)
+        watched_record = WatchedRecord.objects.get(pk=1)
+        self.assertEqual(watched_record.watched, True)
+        resp = self.client.put('/resources/watched/1/', {'watched': False})
+        self.assertEqual(resp.status_code, 200)
+        watched_record = WatchedRecord.objects.get(pk=1)
+        self.assertEqual(watched_record.watched, False)
+
+    def test_watched_record_list(self):
+        resp = self.client.post('/resources/watched/', {'watched': True, 
+                                                        'episode_id': 1})
+        self.assertEqual(resp.status_code, 201)
+        resp = self.client.get('/resources/watched/')
+        self.assertEqual(resp.status_code, 200)
