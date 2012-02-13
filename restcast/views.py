@@ -4,8 +4,8 @@ from djangorestframework.views import ModelView
 from djangorestframework.mixins import ResponseMixin, ReadModelMixin, ListModelMixin
 from djangorestframework.renderers import DEFAULT_RENDERERS
 from djangorestframework.response import Response
-from djangorestframework.authentication import UserLoggedInAuthentication
 from djangorestframework import status
+from djangorestframework.permissions import IsAuthenticated
 
 import feedparser
 from time import mktime
@@ -20,7 +20,6 @@ from restcast.resources import WatchedRecordResource, PodcastResource
 from restcast.forms import WatchedRecordCreateForm, PodcastCreateForm
 
 class PodcastListView(ListModelMixin, ModelView):
-    authentication = [UserLoggedInAuthentication]
     resource = PodcastResource
     form = PodcastCreateForm
     def post(self, request):
@@ -59,7 +58,7 @@ class ReadModelView(ReadModelMixin, ModelView):
 
 class WatchedRecordInstanceView(ReadModelMixin, ModelView):
     resource = WatchedRecordResource
-    authentication = [UserLoggedInAuthentication]
+    permissions = [IsAuthenticated]
 
     def get(self, request, pk):
         model = self.resource.model
@@ -76,8 +75,8 @@ class WatchedRecordInstanceView(ReadModelMixin, ModelView):
 
 
 class WatchedRecordListView(ModelView):
-    authentication = [UserLoggedInAuthentication]
     resource = WatchedRecordResource
+    permissions = [IsAuthenticated]
     form = WatchedRecordCreateForm
     def get(self, request, *args, **kwargs):
         queryset = WatchedRecord.objects.filter(user = request.user)
