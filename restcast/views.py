@@ -93,7 +93,6 @@ class WatchedRecordListView(ModelView):
     def post(self, request):
         # Copy the dict to keep self.CONTENT intact
         content = dict(self.CONTENT)
-        print 'content ', content
         try:
             instance = WatchedRecord.objects.get(user=request.user, 
                                       episode = content['episode_id'])
@@ -106,5 +105,5 @@ class WatchedRecordListView(ModelView):
 
         headers = {}
         if hasattr(instance, 'get_absolute_url'):
-            headers['Location'] = self.resource(self).url(instance)
+            headers['Location'] = instance.get_absolute_url()
         return Response(status.HTTP_201_CREATED, instance, headers)
