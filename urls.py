@@ -1,8 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
-from restcast.views import ReadModelView, WatchedRecordInstanceView, WatchedRecordListView, PodcastListView
 from djangorestframework.views import ListModelView, ModelView, InstanceModelView
-from restcast.resources import PodcastResource, EpisodeResource, WatchedRecordResource
-
+from restcast.views import ReadModelView, WatchedRecordListView, PodcastListView, ReadUpdateUserModelView, SubscriptionListView
+from restcast.resources import PodcastResource, EpisodeResource, WatchedRecordResource, SubscriptionResource
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -25,7 +24,17 @@ urlpatterns = patterns('',
         ReadModelView.as_view(resource=PodcastResource), name='podcast'),
     url(r'^resources/podcast/$', PodcastListView.as_view(), 
         name='podcast-root'),
-    url(r'^resources/watched/(?P<pk>[^/]+)/$', WatchedRecordInstanceView.as_view(),
+    url(r'^resources/watched/(?P<pk>[^/]+)/$', ReadUpdateUserModelView.as_view(resource=WatchedRecordResource),
         name='watched-record'),
     url(r'^resources/watched/$', WatchedRecordListView.as_view()),
+    url(r'^resources/subscription/$', SubscriptionListView.as_view()),
+    url(r'^resources/subscription/(?P<pk>[^/]+)/$', ReadUpdateUserModelView.as_view(resource=SubscriptionResource),
+        name='subscription'),    
+    (r'^(?P<path>.*)$', 'django.views.static.serve',
+        {'document_root': '/Users/bmac/Documents/code/stratocaster/static/'}),
 )
+
+
+
+
+

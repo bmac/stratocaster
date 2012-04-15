@@ -129,6 +129,7 @@ INSTALLED_APPS = (
     # 3rd party libraries
     'djangorestframework',
     'debug_toolbar',
+    'django_extensions',
 
     # custom apps
     'restcast',

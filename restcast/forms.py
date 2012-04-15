@@ -10,3 +10,6 @@ class WatchedRecordCreateForm(forms.Form):
 
 class PodcastCreateForm(forms.Form):
     link = forms.CharField(required=True)
+
+class SubscriptionForm(forms.Form):
+    podcast_id = forms.IntegerField(required=True)

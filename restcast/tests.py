@@ -7,6 +7,7 @@ Replace this with more appropriate tests for your application.
 
 from django.test import TestCase
 from restcast.models import WatchedRecord
+import json
 
 class SimpleTest(TestCase):
     def test_basic_addition(self):
@@ -88,3 +89,29 @@ class WatchedRecordResourceTest(TestCase):
         self.assertEqual(resp.status_code, 201)
         resp = self.client.get('/resources/watched/')
         self.assertEqual(resp.status_code, 200)
+
+
+class SubscriptionResourceTest(TestCase):
+    fixtures = ['auth.json']
+
+    def setUp(self):
+        self.client.login(username='mreynolds', password='youcanttaketheskyfromme')
+        resp = self.client.post('/resources/podcast/', {'link': 'http://shows.kingdomofloathing.com/ahd/videogameshotdog.xml'})
+
+    def test_create_subscription(self):
+        resp = self.client.post('/resources/subscription/', {'podcast_id': 1})
+        self.assertEqual(resp.status_code, 201)
+        resp = self.client.get('/resources/subscription/1/')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_subscription_list(self):
+        resp = self.client.get('/resources/subscription/', Accept='text/json')
+        self.assertEqual(resp.status_code, 200)
+        resp_json = json.loads(resp.content)
+        self.assertEqual(0, len(resp_json))
+        resp = self.client.post('/resources/subscription/', {'podcast_id': 1})
+        self.assertEqual(resp.status_code, 201)
+        resp = self.client.get('/resources/subscription/', Accept='text/json')
+        self.assertEqual(resp.status_code, 200)
+        resp_json = json.loads(resp.content)
+        self.assertEqual(1, len(resp_json))

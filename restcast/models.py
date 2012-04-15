@@ -74,4 +74,12 @@ class WatchedRecord(models.Model):
     def get_absolute_url(self):
         return reverse('watched-record', kwargs={'pk': self.id})
     
+class Subscription(models.Model):
+    user = models.ForeignKey(User)
+    podcast = models.ForeignKey(Podcast)
 
+    def __unicode__(self):
+        return '%s has subscribed to %s' % (self.user, self.podcast)
+
+    def get_absolute_url(self):
+        return reverse('subscription', kwargs={'pk': self.id})

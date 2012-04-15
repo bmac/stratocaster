@@ -1,7 +1,7 @@
 from django.core.urlresolvers import reverse
 from djangorestframework.resources import ModelResource
-from restcast.models import Podcast, Episode, WatchedRecord
-from restcast.forms import WatchedRecordForm
+from restcast.models import Podcast, Episode, WatchedRecord, Subscription
+from restcast.forms import WatchedRecordForm, SubscriptionForm
 
 class PodcastResource(ModelResource):
     """
@@ -51,3 +51,14 @@ class WatchedRecordResource(ModelResource):
         return reverse('episode', kwargs= {'id': instance.episode.id,
                                            'podcast': instance.episode.podcast.id})
 
+
+class SubscriptionResource(ModelResource):
+    """
+    An subscription to a podcast.
+    """
+    form = SubscriptionForm
+    model = Subscription
+    fields = ('podcast_link',)
+    
+    def podcast_link(self, instance):
+        return instance.podcast.get_absolute_url()
