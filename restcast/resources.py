@@ -8,18 +8,11 @@ class PodcastResource(ModelResource):
     A podcast that has a title, episodes and some meta data.
     """
     model = Podcast
-    fields = ('last_updated', 'version', 'publisher', 'subtitle', 'link', 'title', 
-              'rights', 'author', 'email', 'summary', 'episodes', 
+    fields = ('last_updated', 'publisher', 'subtitle', 'link', 'title', 
+              'rights', 'author', 'email', 'summary', 'episode_set', 
               'id',)
     ordering = ('title',)
 
-    def episodes(self, instance):
-        ret = []
-        for episode in instance.episode_set.all():
-            ret.append(reverse('episode', 
-                               kwargs={'id': episode.id, 
-                                       'podcast': instance.id}))
-        return ret
 
 class EpisodeResource(ModelResource):
     """

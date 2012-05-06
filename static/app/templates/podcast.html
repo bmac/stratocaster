@@ -1,0 +1,7 @@
+<h3><%= model.get('title') %></h3>
+<ul class="podcastList">
+  <% for (var episodeNumber in model.get('episode_set') ) { %>
+  <% var episode = model.get('episode_set')[episodeNumber] %>
+  <li><%= episode.title %></li>
+  <% } %>
+</ul>
