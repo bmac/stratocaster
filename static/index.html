@@ -14,15 +14,13 @@
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
-        <!-- Add your site or application content here -->
-        <p>Hello world! This is HTML5 Boilerplate.</p>
-
 	<div class="podcast">
 	  <h3 data-bind="text: title"></h3>
 	  <p data-bind="text: summary"></p>
 	  <ul class="podcast-list" data-bind="foreach: episode_set">
 	    <li class="podcast-episode" >
 	      <h4 data-bind="text: title, attr: {title: summary}"></h4>
+	      <input type="checkbox" data-bind="checked: listened_to" />
 	      <div data-bind="text: updated"></div>
 	    </li>
 	  </ul>

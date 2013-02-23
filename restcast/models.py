@@ -68,6 +68,16 @@ class WatchedRecord(models.Model):
     episode = models.ForeignKey(Episode)
     watched = models.BooleanField()
 
+    @staticmethod 
+    def get_or_create(**kwargs):
+        records = list(WatchedRecord.objects.filter(**kwargs))
+        if records:
+            return records[0]
+        watched_record = WatchedRecord(**kwargs)
+        watched_record.save()
+        return watched_record
+        
+
     def __unicode__(self):
         return '%s has %s %s' % (self.user, 'watched' if self.watched else 'not watched', self.episode)
 
