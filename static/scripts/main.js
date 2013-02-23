@@ -24,7 +24,9 @@ $.ajaxSetup({
          }
      }
 });
-require(['jquery', 'knockout-2.2.1', 'podcastViewModel'], function($, ko, PodcastViewModel) {
+require(['jquery', 'knockout-2.2.1', 'podcastViewModel', 'audioViewModel'], function($, ko, PodcastViewModel, AudioViewModel) {
+    var audioViewModel = new AudioViewModel();
+    ko.applyBindings(audioViewModel, $(audioViewModel.el)[0]);
     $.getJSON('/resources/podcast/6/').done(function(podcast) {
 	window.podcast = podcast;
 	window.podcastViewModel = new PodcastViewModel(podcast);

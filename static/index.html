@@ -14,12 +14,15 @@
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
+      <div id="audio-controls">
+	<audio controls data-bind="attr: {src: audioUrl}">
+      </div>
 	<div class="podcast">
 	  <h3 data-bind="text: title"></h3>
 	  <p data-bind="text: summary"></p>
 	  <ul class="podcast-list" data-bind="foreach: episode_set">
 	    <li class="podcast-episode" >
-	      <h4 data-bind="text: title, attr: {title: summary}"></h4>
+	      <h4 data-bind="text: title, attr: {title: summary}, click: $parent.playPodcast"></h4>
 	      <input type="checkbox" data-bind="checked: listened_to" />
 	      <div data-bind="text: updated"></div>
 	    </li>
