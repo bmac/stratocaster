@@ -19,8 +19,9 @@
       </div>
 	<div class="podcast">
 	  <h3 data-bind="text: title"></h3>
+	  <label>Filter listened episodes: <input type="checkbox" data-bind="checked: filtered" /></label>
 	  <p data-bind="text: summary"></p>
-	  <ul class="podcast-list" data-bind="foreach: episode_set">
+	  <ul class="podcast-list" data-bind="foreach: episodes">
 	    <li class="podcast-episode" >
 	      <h4 data-bind="text: title, attr: {title: summary}, click: $parent.playPodcast"></h4>
 	      <input type="checkbox" data-bind="checked: listened_to" />
