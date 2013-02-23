@@ -2,6 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 from djangorestframework.views import ListModelView, ModelView, InstanceModelView
 from restcast.views import ReadModelView, WatchedRecordListView, PodcastListView, ReadUpdateUserModelView, SubscriptionListView
 from restcast.resources import PodcastResource, EpisodeResource, WatchedRecordResource, SubscriptionResource
+import settings
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -31,7 +32,7 @@ urlpatterns = patterns('',
     url(r'^resources/subscription/(?P<pk>[^/]+)/$', ReadUpdateUserModelView.as_view(resource=SubscriptionResource),
         name='subscription'),    
     (r'^(?P<path>.*)$', 'django.views.static.serve',
-        {'document_root': '/Users/bmac/Documents/code/stratocaster/static/'}),
+        {'document_root': '/Users/bmac/code/stratocaster/static/'}),
 )
 
 
