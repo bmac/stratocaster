@@ -17,5 +17,13 @@
         <!-- Add your site or application content here -->
         <p>Hello world! This is HTML5 Boilerplate.</p>
 
+	<div class="podcast">
+	  <h4 data-bind="text: title"></h4>
+	  <p data-bind="text: summary"></p>
+	  <ol class="podcast-list" data-bind="foreach: episode_set">
+	    <li class="podcast-episode" data-bind="text: title"></li>
+	  </ol>
+	</div>
+        <script data-main="scripts/main" src="scripts/require-jquery.js"></script>
     </body>
 </html>
