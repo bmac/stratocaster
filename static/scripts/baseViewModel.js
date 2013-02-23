@@ -17,6 +17,7 @@ define(['class', 'knockout-2.2.1'], function(Class, ko) {
 
     var baseViewModel = Class.extend({
 	init: function(object) {
+	    observableExtend(this, this.defaults);
 	    observableExtend(this, object);
 	}
     });
