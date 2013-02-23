@@ -17,6 +17,11 @@
       <div id="audio-controls">
 	<audio controls data-bind="attr: {src: audioUrl}">
       </div>
+      <div id="add-podcast" class="">
+	<input type="text" data-bind="value: link" placeholder="Itunes feed link"/>
+	<button data-bind="click: createPodcast">Add Podcast</button>
+	<div class="error" data-bind="text: error"></div>
+      </div>
 	<div class="podcast">
 	  <h3 data-bind="text: title"></h3>
 	  <label>Show new Episodes: <input type="checkbox" data-bind="checked: showNew" /></label>

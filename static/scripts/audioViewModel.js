@@ -4,8 +4,8 @@ define(['jquery', 'baseViewModel', 'vent'], function($, BaseViewModel, vent) {
 	defaults: {
 	    audioUrl: ''
 	},
-	init: function(options) {
-	    this._super(options);
+	init: function(observables) {
+	    this._super(observables);
 	    this.audio = $(this.el).find('audio')[0];
 	    vent.on('playAudio', this._playAudio.bind(this));
 	},
