@@ -1,10 +1,6 @@
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.contrib.auth.models import User
-import feedparser
-from time import mktime
-from datetime import datetime
-
 
 class Podcast(models.Model):
     last_updated = models.DateField(blank=True)
@@ -25,22 +21,6 @@ class Podcast(models.Model):
     def __unicode__(self):
         return self.title
     
-    def load_episodes(self):
-        feed = feedparser.parse(self.link)
-        for entry in feed.entries:
-            count = Episode.objects.filter(link=entry.links[0]['href']).count()
-            if (count == 0):
-                episode = Episode(
-                    podcast=self,
-                    subtitle=entry.subtitle,
-                    title=entry.title,
-                    author=entry.author,
-                    updated=datetime.fromtimestamp(mktime(entry.updated_parsed)),
-                    summary=entry.summary,
-                    link=entry.links[0]['href']
-                    )
-                episode.save()
-
     def get_absolute_url(self):
         return reverse('podcast', kwargs={'id': self.id})
 

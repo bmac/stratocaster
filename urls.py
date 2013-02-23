@@ -1,8 +1,8 @@
 from django.conf.urls.defaults import patterns, include, url
-from djangorestframework.views import ListModelView, ModelView, InstanceModelView
-from restcast.views import ReadModelView, WatchedRecordListView, PodcastListView, ReadUpdateUserModelView, SubscriptionListView, update_watched_record
+from djangorestframework.views import ListModelView
+from restcast.rest_views import ReadModelView, WatchedRecordListView, PodcastListView, ReadUpdateUserModelView, SubscriptionListView
+from restcast.views import update_watched_record
 from restcast.resources import PodcastResource, EpisodeResource, WatchedRecordResource, SubscriptionResource
-import settings
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
