@@ -1,4 +1,4 @@
-define(['baseViewModel', 'knockout-2.2.1'], function(BaseViewModel, ko) {
+define(['baseViewModel', 'knockout-2.2.1', 'vent'], function(BaseViewModel, ko, vent) {
     var url = '/resources/podcast/:podcast_id/episode/:episode_id/listened_to/';
     var podcastViewModel = BaseViewModel.extend({
 	init: function(podcast) {
@@ -12,6 +12,9 @@ define(['baseViewModel', 'knockout-2.2.1'], function(BaseViewModel, ko) {
 		});
 	    });
 	    this._super(podcast);
+	},
+	playPodcast: function(episode) {
+	    vent.trigger('playAudio', episode.link);
 	}
     });
 
