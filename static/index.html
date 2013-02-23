@@ -18,11 +18,14 @@
         <p>Hello world! This is HTML5 Boilerplate.</p>
 
 	<div class="podcast">
-	  <h4 data-bind="text: title"></h4>
+	  <h3 data-bind="text: title"></h3>
 	  <p data-bind="text: summary"></p>
-	  <ol class="podcast-list" data-bind="foreach: episode_set">
-	    <li class="podcast-episode" data-bind="text: title"></li>
-	  </ol>
+	  <ul class="podcast-list" data-bind="foreach: episode_set">
+	    <li class="podcast-episode" >
+	      <h4 data-bind="text: title, attr: {title: summary}"></h4>
+	      <div data-bind="text: updated"></div>
+	    </li>
+	  </ul>
 	</div>
         <script data-main="scripts/main" src="scripts/require-jquery.js"></script>
     </body>

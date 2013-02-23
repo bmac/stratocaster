@@ -9,9 +9,9 @@ class PodcastResource(ModelResource):
     """
     model = Podcast
     fields = ('last_updated', 'publisher', 'subtitle', 'link', 'title', 
-              'rights', 'author', 'email', 'summary', 'episode_set', 
-              'id',)
-    ordering = ('title',)
+              'rights', 'author', 'email', 'summary', 
+              ('episode_set', 'EpisodeResource'), 'id',)
+    ordering = ('title',)    
 
 
 class EpisodeResource(ModelResource):
@@ -20,11 +20,15 @@ class EpisodeResource(ModelResource):
     """
     model = Episode
     fields = ('podcast', 'subtitle', 'title', 'author', 'updated', 'summary',
-              'content', 'link', 'id',)
+              'content', 'link', 'id', 'listened_to',)
     ordering = ('-updated',)
 
     def podcast(self, instance):
         return reverse('podcast', kwargs={'id': instance.podcast.id})
+
+    def listened_to(self, instance):
+        watched_records = instance.watchedrecord_set.filter(user=self.request.user)
+        return watched_records.count() > 0
 
 
 class WatchedRecordResource(ModelResource):
