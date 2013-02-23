@@ -1,39 +1,40 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Stratocaster</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Stratocaster</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
 
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/main.css">
-    </head>
-    <body>
-      <div id="audio-controls">
-	<audio controls data-bind="attr: {src: audioUrl}">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body>
+    <div id="audio-controls">
+      <audio controls data-bind="attr: {src: audioUrl}">
+    </div>
+    <div id="add-podcast" class="">
+      <input type="text" data-bind="value: link" placeholder="Itunes feed link"/>
+      <button data-bind="click: createPodcast">Add Podcast</button>
+      <div class="error" data-bind="text: error"></div>
+    </div>
+    <div id="podcast-list" data-bind="template: { name: 'podcast-template', foreach: podcasts }"></div>
+
+    <script type="text/x-ko-template" id="podcast-template">
+      <div class="podcast">
+	<h3 data-bind="text: title"></h3>
+	<label>Show new Episodes: <input type="checkbox" data-bind="checked: showNew" /></label>
+	<p data-bind="text: summary"></p>
+	<ul class="podcast-list" data-bind="foreach: episodes">
+          <li class="podcast-episode" >
+            <h4 data-bind="text: title, attr: {title: summary}, click: $parent.playPodcast"></h4>
+            <input type="checkbox" data-bind="checked: listened" />
+            <div data-bind="text: updated"></div>
+          </li>
+	</ul>
       </div>
-      <div id="add-podcast" class="">
-	<input type="text" data-bind="value: link" placeholder="Itunes feed link"/>
-	<button data-bind="click: createPodcast">Add Podcast</button>
-	<div class="error" data-bind="text: error"></div>
-      </div>
-	<div class="podcast">
-	  <h3 data-bind="text: title"></h3>
-	  <label>Show new Episodes: <input type="checkbox" data-bind="checked: showNew" /></label>
-	  <p data-bind="text: summary"></p>
-	  <ul class="podcast-list" data-bind="foreach: episodes">
-	    <li class="podcast-episode" >
-	      <h4 data-bind="text: title, attr: {title: summary}, click: $parent.playPodcast"></h4>
-	      <input type="checkbox" data-bind="checked: listened" />
-	      <div data-bind="text: updated"></div>
-	    </li>
-	  </ul>
-	</div>
-        <script data-main="scripts/main" src="scripts/require-jquery.js"></script>
-    </body>
+    </script>
+    <script data-main="scripts/main" src="scripts/require-jquery.js"></script>
+  </body>
 </html>

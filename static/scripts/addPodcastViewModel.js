@@ -15,6 +15,7 @@ define(['baseViewModel', 'knockout-2.2.1', 'vent'], function(BaseViewModel, ko, 
 	},
 	createPodcast: function() {
 	    var self = this;
+	    self.error('');
 	    $.ajax({
 		method: 'PUT',
 		url: 'resources/podcast/',

@@ -29,12 +29,16 @@ require(['jquery', 'knockout-2.2.1', 'podcastViewModel', 'audioViewModel', 'addP
     ko.applyBindings(audioViewModel, $(audioViewModel.el)[0]);
     var addPodcastViewModel = new AddPodcastViewModel();
     ko.applyBindings(addPodcastViewModel, $(addPodcastViewModel.el)[0]);
+    var podcastManager = {
+	podcasts: ko.observableArray([])
+    };
+    ko.applyBindings(podcastManager, $('#podcast-list')[0]);
 
-    $.getJSON('/resources/podcast/6/').done(function(podcast) {
-	window.podcast = podcast;
-	window.podcastViewModel = new PodcastViewModel(podcast);
-
-	ko.applyBindings(podcastViewModel, $('.podcast')[0]);
+    $.getJSON('/resources/podcast/').done(function(podcasts) {
+	var viewModels = podcasts.map(function(podcast) {
+	    return new PodcastViewModel(podcast);
+	});
+    	podcastManager.podcasts(viewModels);
     });
 
 });
