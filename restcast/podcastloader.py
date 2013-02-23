@@ -1,7 +1,7 @@
 import feedparser
 from time import mktime
 from datetime import datetime
-from restcast.models import Episode
+from restcast.models import Episode, Podcast
 
 def load_episodes_for_podcast(podcast):
     feed = feedparser.parse(podcast.link)
@@ -32,7 +32,7 @@ def create_podcast_form_feed_link(link):
     podcast = Podcast(
         last_updated = datetime.fromtimestamp(mktime(itunes_podcast_xml.updated_parsed)),
         version = itunes_podcast_xml.version,
-        itunes_namespace = podcast_feed.namespaces['itunes'],
+        itunes_namespace = itunes_podcast_xml.namespaces['itunes'],
         publisher = podcast_feed.publisher,
         subtitle = podcast_feed.subtitle,
         link = link,

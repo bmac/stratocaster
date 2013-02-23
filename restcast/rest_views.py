@@ -11,7 +11,7 @@ import podcastloader
 class PodcastListView(ListModelMixin, ModelView):
     resource = PodcastResource
     form = PodcastCreateForm
-    def post(self, request):
+    def put(self, request):
         link = self.CONTENT['link']
         podcast = podcastloader.create_podcast_form_feed_link(link)
         podcastloader.load_episodes_for_podcast(podcast)
