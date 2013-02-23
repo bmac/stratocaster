@@ -17,8 +17,8 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^resources/podcast/(?P<podcast_id>[^/]+)/episode/(?P<episode_id>[^/]+)/listened_to/$', 
-        update_watched_record, name='listened_to'),
+    url(r'^resources/podcast/(?P<podcast_id>[^/]+)/episode/(?P<episode_id>[^/]+)/listened/$', 
+        update_watched_record, name='listened'),
     url(r'^resources/podcast/(?P<podcast>[^/]+)/episode/(?P<id>[^/]+)/$', 
         ReadModelView.as_view(resource=EpisodeResource), name='episode'),
     url(r'^resources/podcast/(?P<podcast>[^/]+)/episode/$', 

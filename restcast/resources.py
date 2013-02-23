@@ -20,13 +20,13 @@ class EpisodeResource(ModelResource):
     """
     model = Episode
     fields = ('podcast', 'subtitle', 'title', 'author', 'updated', 'summary',
-              'content', 'link', 'id', 'listened_to',)
+              'content', 'link', 'id', 'listened',)
     ordering = ('-updated',)
 
     def podcast(self, instance):
         return reverse('podcast', kwargs={'id': instance.podcast.id})
 
-    def listened_to(self, instance):
+    def listened(self, instance):
         watched_records = instance.watchedrecord_set.filter(user=self.request.user)
         return watched_records.count() > 0
 
