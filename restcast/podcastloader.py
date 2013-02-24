@@ -8,8 +8,8 @@ def load_episodes_for_podcast(podcast):
     new_episodes = []
     for entry in feed.entries:
         link = entry.links[0]['href']
-        count = podcast.episode_set.filter(link=link).count()
-        if (count == 0):
+        matching_episode = list(podcast.episode_set.filter(link=link))
+        if not matching_episode:
             episode = Episode(
                 podcast=podcast,
                 subtitle=entry.subtitle,
