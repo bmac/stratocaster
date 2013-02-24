@@ -10,29 +10,39 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
   </head>
-  <body>
-    <div id="audio-controls">
-      <audio controls data-bind="attr: {src: audioUrl}">
-    </div>
-    <div id="add-podcast" class="">
-      <input type="text" data-bind="value: link" placeholder="Itunes feed link"/>
-      <button data-bind="click: createPodcast">Add Podcast</button>
-      <div class="error" data-bind="text: error"></div>
-    </div>
+  <body class="home">
+    <header>
+      <div id="audio-controls" class="audio-controls">
+        <audio controls data-bind="attr: {src: audioUrl}">
+      </div>
+      <div id="add-podcast" class="add-podcast">
+        <input type="text" data-bind="value: link" placeholder="Itunes feed link"/>
+        <button data-bind="click: createPodcast" class="btn">Add Podcast</button>
+        <div class="error" data-bind="text: error"></div>
+      </div>
+    </header>
     <div id="podcast-list" data-bind="template: { name: 'podcast-template', foreach: podcasts }"></div>
 
     <script type="text/x-ko-template" id="podcast-template">
       <div class="podcast">
-	<h3 data-bind="text: title"></h3>
-	<label>Show new Episodes: <input type="checkbox" data-bind="checked: showNew" /></label>
-	<p data-bind="text: summary"></p>
-	<ul class="podcast-list" data-bind="foreach: episodes">
-          <li class="podcast-episode" >
-            <h4 data-bind="text: title, attr: {title: summary}, click: $parent.playPodcast"></h4>
-            <input type="checkbox" data-bind="checked: listened" />
-            <div data-bind="text: updated"></div>
+	<div class="container">
+          <h3 data-bind="text: title" class="podcast-title"></h3>
+          <label class="podcast-filter">Show new Episodes: <input type="checkbox" data-bind="checked: showNew" /></label>
+	</div>
+        <p data-bind="text: summary"></p>
+        <ul class="podcast-list" data-bind="foreach: episodes">
+          <li class="episode" >
+            <a data-bind="text: title, attr: {title: summary}, click: $parent.playPodcast" href="#"></a>
+            <time data-bind="attr: {datetime: updated}" class="podcast-date">
+	      (<!-- ko text: updated --><!-- /ko -->)
+	    </time>
+            <label class="episode-listened">
+	      Listened:
+	      <input type="checkbox" data-bind="checked: listened" />
+	    </label>
+	    <p data-bind="text: summary"></p>
           </li>
-	</ul>
+        </ul>
       </div>
     </script>
     <script data-main="scripts/main" src="scripts/require-jquery.js"></script>
