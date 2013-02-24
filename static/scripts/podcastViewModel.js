@@ -26,7 +26,7 @@ define(['baseViewModel', 'knockout-2.2.1', 'episodeViewModel', 'vent'], function
 	    });
 	},
 	playPodcast: function(episode) {
-	    vent.trigger('playAudio', episode.link);
+	    vent.trigger('playAudio', episode.link());
 	}
     });
 
