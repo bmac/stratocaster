@@ -24,7 +24,7 @@ $.ajaxSetup({
          }
      }
 });
-require(['jquery', 'podcastViewModel', 'audioViewModel', 'addPodcastViewModel', 'podcastManager'], function($, PodcastViewModel, AudioViewModel, AddPodcastViewModel, PodcastManager) {
+require(['audioViewModel', 'addPodcastViewModel', 'podcastManager'], function(AudioViewModel, AddPodcastViewModel, PodcastManager) {
     var audioViewModel = new AudioViewModel();
     var addPodcastViewModel = new AddPodcastViewModel();
     var podcastManager = new PodcastManager();

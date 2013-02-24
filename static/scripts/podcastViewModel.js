@@ -1,5 +1,4 @@
-define(['baseViewModel', 'knockout-2.2.1', 'vent'], function(BaseViewModel, ko, vent) {
-    var url = '/resources/podcast/:podcast_id/episode/:episode_id/listened/';
+define(['baseViewModel', 'knockout-2.2.1', 'episodeViewModel', 'vent'], function(BaseViewModel, ko, EpisodeViewModel, vent) {
 
     var filterUnlistenedEpisodes = function(episodes) {
 	return episodes.filter(function(episode) {
@@ -13,15 +12,10 @@ define(['baseViewModel', 'knockout-2.2.1', 'vent'], function(BaseViewModel, ko, 
 	},
 	init: function(podcast) {
 	    var self = this;
-	    podcast.episode_set.forEach(function(episode) {
-		episode.listened = ko.observable(episode.listened);
-		episode.listened.subscribe(function(new_value) {
-		    var update_url = url.replace(':podcast_id', podcast.id)
-		                        .replace(':episode_id', episode.id);
-
-		    $.post(update_url, {listened: new_value});
-		});
+	    podcast.episode_set = podcast.episode_set.map(function(episode) {
+		return new EpisodeViewModel(episode);
 	    });
+
 	    self._super(podcast);
 
 	    self.episodes = ko.computed(function() {
