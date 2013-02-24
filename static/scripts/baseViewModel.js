@@ -19,6 +19,10 @@ define(['class', 'knockout-2.2.1'], function(Class, ko) {
 	init: function(object) {
 	    observableExtend(this, this.defaults);
 	    observableExtend(this, object);
+	    this.el = $(this.el)[0];
+	},
+	applyBindings: function() {
+	    ko.applyBindings(this, this.el);
 	}
     });
 

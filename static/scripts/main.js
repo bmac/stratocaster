@@ -24,21 +24,8 @@ $.ajaxSetup({
          }
      }
 });
-require(['jquery', 'knockout-2.2.1', 'podcastViewModel', 'audioViewModel', 'addPodcastViewModel'], function($, ko, PodcastViewModel, AudioViewModel, AddPodcastViewModel) {
+require(['jquery', 'podcastViewModel', 'audioViewModel', 'addPodcastViewModel', 'podcastManager'], function($, PodcastViewModel, AudioViewModel, AddPodcastViewModel, PodcastManager) {
     var audioViewModel = new AudioViewModel();
-    ko.applyBindings(audioViewModel, $(audioViewModel.el)[0]);
     var addPodcastViewModel = new AddPodcastViewModel();
-    ko.applyBindings(addPodcastViewModel, $(addPodcastViewModel.el)[0]);
-    var podcastManager = {
-	podcasts: ko.observableArray([])
-    };
-    ko.applyBindings(podcastManager, $('#podcast-list')[0]);
-
-    $.getJSON('/resources/podcast/').done(function(podcasts) {
-	var viewModels = podcasts.map(function(podcast) {
-	    return new PodcastViewModel(podcast);
-	});
-    	podcastManager.podcasts(viewModels);
-    });
-
+    var podcastManager = new PodcastManager();
 });

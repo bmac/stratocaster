@@ -12,6 +12,7 @@ define(['baseViewModel', 'knockout-2.2.1', 'vent'], function(BaseViewModel, ko, 
 	    self.canCreate = ko.computed(function() {
 		return !!self.link().length;
 	    });
+	    self.applyBindings();
 	},
 	createPodcast: function() {
 	    var self = this;
