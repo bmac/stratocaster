@@ -3,12 +3,18 @@ from time import mktime
 from datetime import datetime
 from restcast.models import Episode, Podcast
 
+def find_audio_link(links):
+    for link in links:
+        if 'audio' in link['type']:
+            return link
+    return links[0]
+
 def load_episodes_for_podcast(podcast):
     feed = feedparser.parse(podcast.link)
     new_episodes = []
     for entry in feed.entries:
-        link = entry.links[0]['href']
-        matching_episode = list(podcast.episode_set.filter(link=link))
+        link = find_audio_link(entry.links)
+        matching_episode = list(podcast.episode_set.filter(link=link))        
         if not matching_episode:
             episode = Episode(
                 podcast=podcast,

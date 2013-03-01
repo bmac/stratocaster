@@ -22,6 +22,7 @@ urlpatterns = patterns('',
         ReadModelView.as_view(resource=PodcastResource), name='podcast'),
     url(r'^resources/podcast/$', PodcastListView.as_view(), 
         name='podcast-root'),
+    url(r'^restframework/', include('djangorestframework.urls', namespace='djangorestframework')),
     (r'^(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': '/Users/bmac/code/stratocaster/static/'}),
 )
